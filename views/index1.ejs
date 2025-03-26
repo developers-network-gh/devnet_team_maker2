@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Devnet Team Maker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f8f8f8;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin: 0;
+      padding: 10px 0;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      margin-right: 10px;
+    }
+
+    input {
+      margin-right: 15px;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+
+    .tables {
+      display: flex;
+      gap: 40px;
+      justify-content: space-between;
+    }
+
+    table {
+      border-collapse: collapse;
+      background-color: white;
+      min-width: 300px;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    .table-container {
+      flex: 1;
+    }
+
+    .team-title {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Developer's Network Team Maker</h1>
+  </header>
+
+  <h2>Add Participant</h2>
+  <form action="/add_participant" method="POST">
+    <label>SID</label>
+    <input type="text" name="sid" required />
+    <label>First Name</label>
+    <input type="text" name="first_name" required />
+    <label>Last Name</label>
+    <input type="text" name="last_name" required />
+    <label>Year</label>
+    <input type="number" name="year" min="1" required />
+    <button type="submit">Add Participant</button>
+  </form>
+
+  <h2>Randomize Teams</h2>
+  <form action="/randomize" method="POST">
+    <button type="submit">Start Randomization</button>
+  </form>
+
+  <h2>Delete Participant</h2>
+  <form action="/delete_participant" method="POST">
+    <label>SID</label>
+    <input type="text" name="sid" required />
+    <label>First Name</label>
+    <input type="text" name="first_name" required />
+    <label>Last Name</label>
+    <input type="text" name="last_name" required />
+    <label>Year</label>
+    <input type="number" name="year" min="1" required />
+    <button type="submit">Delete</button>
+  </form>
+
+  <h2>Clear All Data</h2>
+  <form action="/clear" method="POST">
+    <label>Password:</label>
+    <input type="password" name="password" required />
+    <button type="submit">Clear Participants and Teams</button>
+  </form>
+
+  <% if (teams && teams.length > 0) { %>
+    <h2>Download Teams CSV</h2>
+    <form action="/download-csv" method="GET" style="margin-top: 20px;">
+      <button type="submit">Download Teams CSV</button>
+    </form>
+  <% } %>  
+
+  <% if (error_message) { %>
+    <p class="error"><%= error_message %></p>
+  <% } %>
+
+  <div class="tables">
+    <div class="table-container">
+      <h2>Participants</h2>
+      <h4>Total: <%= participants.length %></h4>
+      <table>
+        <thead>
+          <tr>
+            <th>SID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Year</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% participants.forEach(p => { %>
+            <tr>
+              <td><%= p.sid %></td>
+              <td><%= p.first_name %></td>
+              <td><%= p.last_name %></td>
+              <td><%= p.year %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <% if (teams && teams.length > 0) { %>
+      <div class="table-container">
+        <h2 class="team-title">Formed Teams</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Team</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Year</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% teams.forEach((team, i) => { %>
+              <% team.members.forEach(m => { %>
+                <tr>
+                  <td>Team <%= i + 1 %></td>
+                  <td><%= m.first_name %></td>
+                  <td><%= m.last_name %></td>
+                  <td><%= m.year %></td>
+                </tr>
+              <% }) %>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>
