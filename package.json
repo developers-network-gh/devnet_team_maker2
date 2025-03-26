@@ -1,0 +1,25 @@
+{
+  "name": "devnet_team_maker2",
+  "version": "1.0.0",
+  "main": "server1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developers-network-gh/devnet_team_maker2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/developers-network-gh/devnet_team_maker2/issues"
+  },
+  "homepage": "https://github.com/developers-network-gh/devnet_team_maker2#readme",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}
