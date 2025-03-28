@@ -26,8 +26,8 @@ app.get('/', (req, res) => {
 })
 
 app.post('/add_participant', (req, res) => {
-  const { sid, first_name, last_name, year } = req.body
-  if (!sid || !first_name || !last_name || !year) {
+  const { first_name, last_name, year } = req.body
+  if (!first_name || !last_name || !year) {
     error_message = 'All fields required'
     return res.redirect('/')
   }
@@ -36,14 +36,13 @@ app.post('/add_participant', (req, res) => {
     return res.redirect('/')
   }
   const exists = participants.some(
-    p => p.sid === sid
+    p => p.first_name === first_name && p.last_name === last_name && p.year === parseInt(year)
   )
   if (exists) {
     error_message = 'Participant already exists'
     return res.redirect('/')
   }
   const participant = {
-    sid: sid,
     first_name: first_name,
     last_name: last_name,
     year: parseInt(year)
@@ -55,19 +54,17 @@ app.post('/add_participant', (req, res) => {
 })
 
 app.post('/delete_participant', (req, res) => {
-  const { sid, first_name, last_name, year } = req.body
+  const { first_name, last_name, year } = req.body
   const participant = {
-    sid: sid,
     first_name: first_name,
     last_name: last_name,
     year: parseInt(year)
   }
-  if (!sid || !first_name || !last_name || !year) {
+  if (!first_name || !last_name || !year) {
     error_message = 'All fields required'
     return res.redirect('/')
   }
   const index = participants.findIndex(p =>
-    p.sid === sid &&
     p.first_name === first_name &&
     p.last_name === last_name &&
     p.year === parseInt(year)
